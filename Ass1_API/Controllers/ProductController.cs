@@ -30,6 +30,7 @@ namespace Ass1_API.Controllers
                 UnitPrice = productRequest.UnitPrice,
                 UnitsInStock = productRequest.UnitsInStock,
                 CategoryID = productRequest.CategoryID,
+                Weight = productRequest.Weight,
             };
             repository.SaveProduct(f);
             return NoContent();
@@ -57,18 +58,19 @@ namespace Ass1_API.Controllers
         [HttpPut("{id}")]
         public IActionResult PutProduct(int id, ProductRequest productRequest)
         {
-            var fTmp = repository.GetProductById(id);
-            if (fTmp == null)
+            var product = repository.GetProductById(id);
+            if (product == null)
             {
                 return NotFound();
             }
 
-            fTmp.ProductName = productRequest.ProductName;
-            fTmp.UnitPrice = productRequest.UnitPrice;
-            fTmp.UnitsInStock = productRequest.UnitsInStock;
-            fTmp.CategoryID = productRequest.CategoryID;
+            product.ProductName = productRequest.ProductName;
+            product.UnitPrice = productRequest.UnitPrice;
+            product.UnitsInStock = productRequest.UnitsInStock;
+            product.CategoryID = productRequest.CategoryID;
+            product.Weight = productRequest.Weight;
 
-            repository.UpdateProduct(fTmp);
+            repository.UpdateProduct(product);
             return NoContent();
         }
     }

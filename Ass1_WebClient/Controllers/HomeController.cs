@@ -57,7 +57,7 @@ namespace Ass1_WebClient.Controllers
             {
                 HttpContext.Session.SetInt32("USERID", account.MemberID);
                 HttpContext.Session.SetString("EMAIL", account.Email);
-                if (account.Email == "admin@gmail.com")
+                if (account.Email == "admin@estore.com")
                     return RedirectToAction("Index", "Member");
                 else
                     return RedirectToAction("Profile", "Member");

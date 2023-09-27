@@ -21,49 +21,33 @@ namespace Ass1_WebClient.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-/*            string Role = HttpContext.Session.GetString("EMAIL");
+            string email = HttpContext.Session.GetString("EMAIL");
 
-            if (Role == null)
+            if (email == null)
             {
-                TempData["ErrorMessage"] = "You must login to access this page.";
                 return RedirectToAction("Index", "Home");
             }
-            else if (Role != "Admin")
+            else if (email != "admin@estore.com")
             {
-                TempData["ErrorMessage"] = "You don't have permission to access this page.";
                 return RedirectToAction("Profile", "Member");
-            }*/
+            }
 
             List<Member> listMembers = await ApiHandler.DeserializeApiResponse<List<Member>>(MemberApiUrl, HttpMethod.Get);
-/*
-            if (TempData != null)
-            {
-                ViewData["SuccessMessage"] = TempData["SuccessMessage"];
-                ViewData["ErrorMessage"] = TempData["ErrorMessage"];
-            }*/
 
             return View(listMembers);
         }
         [HttpGet]
         public IActionResult Create()
         {
-            string Role = HttpContext.Session.GetString("EMAIL");
+            string email = HttpContext.Session.GetString("EMAIL");
 
-            if (Role == null)
+            if (email == null)
             {
-                TempData["ErrorMessage"] = "You must login to access this page.";
                 return RedirectToAction("Index", "Home");
             }
-            else if (Role != "Admin")
+            else if (email != "admin@estore.com")
             {
-                TempData["ErrorMessage"] = "You don't have permission to access this page.";
                 return RedirectToAction("Profile", "Member");
-            }
-
-            if (TempData != null)
-            {
-                ViewData["SuccessMessage"] = TempData["SuccessMessage"];
-                ViewData["ErrorMessage"] = TempData["ErrorMessage"];
             }
 
             return View();
@@ -72,10 +56,9 @@ namespace Ass1_WebClient.Controllers
         public async Task<IActionResult> Create(MemberRequest memberRequest)
         {
             Member member = await ApiHandler.DeserializeApiResponse<Member>(MemberApiUrl + "/Email/" + memberRequest.Email, HttpMethod.Get);
-            if (memberRequest.Email.Equals("admin") ||
+            if (memberRequest.Email.Equals("admin@estore.com") ||
                 (member != null && member.MemberID != 0))
             {
-                TempData["ErrorMessage"] = "Email already exists.";
                 return RedirectToAction("Create");
             }
 
@@ -86,26 +69,18 @@ namespace Ass1_WebClient.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            string Role = HttpContext.Session.GetString("EMAIL");
+            string email = HttpContext.Session.GetString("EMAIL");
 
-            if (Role == null)
+            if (email == null)
             {
-                TempData["ErrorMessage"] = "You must login to access this page.";
                 return RedirectToAction("Index", "Home");
             }
-            else if (Role != "Admin")
+            else if (email != "admin@estore.com")
             {
-                TempData["ErrorMessage"] = "You don't have permission to access this page.";
                 return RedirectToAction("Profile", "Member");
             }
 
             Member member = await ApiHandler.DeserializeApiResponse<Member>(MemberApiUrl + "/" + id, HttpMethod.Get);
-
-            if (TempData != null)
-            {
-                ViewData["SuccessMessage"] = TempData["SuccessMessage"];
-                ViewData["ErrorMessage"] = TempData["ErrorMessage"];
-            }
 
             return View(member);
         }
@@ -121,26 +96,18 @@ namespace Ass1_WebClient.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            string Role = HttpContext.Session.GetString("EMAIL");
+            string email = HttpContext.Session.GetString("EMAIL");
 
-            if (Role == null)
+            if (email == null)
             {
-                TempData["ErrorMessage"] = "You must login to access this page.";
                 return RedirectToAction("Index", "Home");
             }
-            else if (Role != "Admin")
+            else if (email != "admin@estore.com")
             {
-                TempData["ErrorMessage"] = "You don't have permission to access this page.";
                 return RedirectToAction("Profile", "Member");
             }
 
             Member member = await ApiHandler.DeserializeApiResponse<Member>(MemberApiUrl + "/" + id, HttpMethod.Get);
-
-            if (TempData != null)
-            {
-                ViewData["SuccessMessage"] = TempData["SuccessMessage"];
-                ViewData["ErrorMessage"] = TempData["ErrorMessage"];
-            }
 
             return View(member);
         }
@@ -170,27 +137,14 @@ namespace Ass1_WebClient.Controllers
         [HttpGet]
         public async Task<IActionResult> EditProfile()
         {
-            string Role = HttpContext.Session.GetString("EMAIL");
-            if (Role == null)
+            string email = HttpContext.Session.GetString("EMAIL");
+            if (email == null)
             {
-                TempData["ErrorMessage"] = "You must login to access this page.";
                 return RedirectToAction("Index", "Home");
-            }
-            else if (Role != "Member")
-            {
-                TempData["ErrorMessage"] = "You don't have permission to access this page.";
-                return RedirectToAction("Index", "Member");
             }
             int userId = HttpContext.Session.GetInt32("USERID").Value;
 
             Member member = await ApiHandler.DeserializeApiResponse<Member>(MemberApiUrl + "/" + userId, HttpMethod.Get);
-
-            if (TempData != null)
-            {
-                ViewData["SuccessMessage"] = TempData["SuccessMessage"];
-                ViewData["ErrorMessage"] = TempData["ErrorMessage"];
-            }
-
             return View(member);
         }
 
@@ -203,8 +157,6 @@ namespace Ass1_WebClient.Controllers
 
             memberRequest.MemberID = userId.Value;
             await ApiHandler.DeserializeApiResponse(MemberApiUrl + "/" + memberRequest.MemberID, HttpMethod.Put, memberRequest);
-
-            TempData["SuccessMessage"] = "Edit profile information successfully.";
 
             return RedirectToAction("Profile", TempData);
         }
