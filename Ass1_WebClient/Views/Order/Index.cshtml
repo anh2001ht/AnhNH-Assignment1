@@ -1,0 +1,85 @@
+﻿@model IEnumerable<BusinessObjects.Order>
+
+@{
+    ViewData["Title"] = "Index";
+    String Email = Context.Session.GetString("EMAIL");
+}
+
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <h1>List orders</h1>
+
+    <p>
+        <a asp-action="Create" class="btn btn-dark">Create New</a>
+    </p>
+</div>
+
+
+
+
+@if (Model.Count() == 0)
+{
+    <div>No orders found</div>
+} else
+{
+    <table class="table table-striped table-hover mt-2">
+        <thead>
+            <tr class="bg-info text-white">
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.OrderID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ShippedDate)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Freight)
+                </th>
+                @if (Email == "admin@estore.com")
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.Member)
+                    </th>
+                }
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderDate)
+                    </td>
+                    <td>
+                        @(item.ShippedDate == null ? "N/a" : item.ShippedDate)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Freight)
+                    </td>
+                    @if (Email == "admin@estore.com")
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Member.Email)
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.OrderID">Details</a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.OrderID">Details</a>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}

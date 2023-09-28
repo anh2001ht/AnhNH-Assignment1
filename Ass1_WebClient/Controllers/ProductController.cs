@@ -32,7 +32,7 @@ namespace Ass1_WebClient.Controllers
             }
             else if (Email != "admin@estore.com")
             {
-                return RedirectToAction("Profile", "Customer");
+                return RedirectToAction("Profile", "Member");
             }
 
             List<Product> listProducts = await ApiHandler.DeserializeApiResponse<List<Product>>(ProductApiUrl, HttpMethod.Get);
@@ -60,7 +60,7 @@ namespace Ass1_WebClient.Controllers
             }
             else if (Email != "admin@estore.com")
             {
-                return RedirectToAction("Profile", "Customer");
+                return RedirectToAction("Profile", "Member");
             }
 
             List<Category> listCategories = await ApiHandler.DeserializeApiResponse<List<Category>>(CategoryApiUrl, HttpMethod.Get);
@@ -89,7 +89,7 @@ namespace Ass1_WebClient.Controllers
             }
             else if (Email != "admin@estore.com")
             {
-                return RedirectToAction("Profile", "Customer");
+                return RedirectToAction("Profile", "Member");
             }
 
             Product product = await ApiHandler.DeserializeApiResponse<Product>(ProductApiUrl + "/" + id, HttpMethod.Get);
@@ -122,7 +122,7 @@ namespace Ass1_WebClient.Controllers
             }
             else if (Email != "admin@estore.com")
             {
-                return RedirectToAction("Profile", "Customer");
+                return RedirectToAction("Profile", "Member");
             }
 
             Product product = await ApiHandler.DeserializeApiResponse<Product>(ProductApiUrl + "/" + id, HttpMethod.Get);

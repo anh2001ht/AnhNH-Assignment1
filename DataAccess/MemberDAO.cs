@@ -21,14 +21,14 @@ namespace DataAccess
             return listMembers;
         }
 
-        public static Member FindMemberById(int customerId)
+        public static Member FindMemberById(int memberId)
         {
             var member = new Member();
             try
             {
                 using (var context = new MyDBContext())
                 {
-                    member = context.Members.SingleOrDefault(c => c.MemberID == customerId);
+                    member = context.Members.SingleOrDefault(c => c.MemberID == memberId);
                 }
             }
             catch (Exception ex)

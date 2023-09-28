@@ -15,7 +15,7 @@ namespace Ass1_API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Order>> GetOrders() => repository.GetOrders();
 
-        [HttpGet("customer/{id}")]
+        [HttpGet("member/{id}")]
         public ActionResult<IEnumerable<Order>> GetAllOrdersByMemberId(int id) => repository.GetAllOrdersByMemberId(id);
 
         [HttpGet("{id}")]
@@ -63,29 +63,6 @@ namespace Ass1_API.Controllers
             return NoContent();
         }
 
-        [HttpPut("shipped/{id}")]
-        public IActionResult PutOrderShipped(int id)
-        {
-            var oTmp = repository.GetOrderById(id);
-            if (oTmp == null)
-            {
-                return NotFound();
-            }
-            oTmp.ShippedDate = DateTime.Now;
-            repository.UpdateOrder(oTmp);
-            return NoContent();
-        }
 
-        [HttpPut("cancel/{id}")]
-        public IActionResult PutOrderCancel(int id)
-        {
-            var oTmp = repository.GetOrderById(id);
-            if (oTmp == null)
-            {
-                return NotFound();
-            }
-            repository.UpdateOrder(oTmp);
-            return NoContent();
-        }
     }
 }
